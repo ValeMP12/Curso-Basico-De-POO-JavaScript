@@ -33,3 +33,24 @@ const monserrat = new Student(
     ]
 
 );
+
+//Prototipo con la sintaxis de clases
+class Student2 {
+    constructor({name, age,cursosAprobados =[], email}){
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.cursosAprobados = cursosAprobados;
+
+    }
+    aprobarCurso(nuevoCurso){
+        this.cursosAprobados.push(nuevoCurso);
+    }
+};
+
+const juanito = new Student2 ({
+    email: "juanito7@gamil.com",
+    name: "Juan",
+    age: 36,
+    //cursosAprobados: ["Curso Análisis de negocios para ciencia de datos","Curso de principios de visualisacion de datos para BI"],
+});
