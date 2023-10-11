@@ -1,32 +1,51 @@
+class Comment {
+    constructor({
+        content,
+        studentName,
+        studentRole = "estudiante"
+    }){
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes = 0;
+    }
+
+    publicar(){
+        console.log(this.studentName + "(" + this.studentRole + ")");
+        console.log(this.likes + "likes");
+        console.log(this.content);
+    }
+}
+
 //Módulos de ECMAScript6
-//function videoPlay(id){
-  //  const urlSecreta = "https: //platziultrasecretomasquelanasa.com/" + id;
-    //console.log("Se esta priduciondo desde la url " + urlSecreta);
-//}
-//function videoStop(id){
-  //  const urlSecreta = "https: //platziultrasecretomasquelanasa.com/" + id;
-    //console.log("Pausamos la url " + urlSecreta);
-//}
+function videoPlay(id){
+    const urlSecreta = "https: //platziultrasecretomasquelanasa.com/" + id;
+    console.log("Se esta priduciondo desde la url " + urlSecreta);
+}
+function videoStop(id){
+    const urlSecreta = "https: //platziultrasecretomasquelanasa.com/" + id;
+    console.log("Pausamos la url " + urlSecreta);
+}
 
-//class PlatziClass {
-  //  constructor({
-    //    name,
-      //  videoID,
+class PlatziClass {
+    constructor({
+        name,
+        videoID,
 
 
-    //}){
-      //  this.name = name;
-        //this.videoID = videoID;
-    //}
+    }){
+        this.name = name;
+        this.videoID = videoID;
+    }
 
-    //reprodicir (){
-      //  videoPlay(this.videoID);
-    //}
+    reprodicir (){
+        videoPlay(this.videoID);
+    }
 
-    //pausar (){
-      //  videoStop(this.videoID);
-   // }
-//}
+    pausar (){
+        videoStop(this.videoID);
+    }
+}
 
 //Getters y Setters
 class Course {
@@ -123,6 +142,15 @@ class Student {
         this.approvedCourses = approvedCourses;
         this.learningPaths = learningPaths;
     }
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+
+        });
+        comment.publicar();
+
+    }
 }
 
 class FreeStuden  extends Student{
@@ -152,8 +180,6 @@ class BasicStudent extends Student{
         }
     }
 }
-
-
 class ExpertStudent extends Student{
     constructor(props){
         super(props);
@@ -163,6 +189,23 @@ class ExpertStudent extends Student{
         this.approvedCourses.push(newCurse);
     }
 }
+class TeacherStudent extends Student{
+    constructor(props){
+        super(props);
+    }
+    approvedCourses(newCurse){
+        this.approvedCourses.push(newCurse);
+    }
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+            studentRole: "profesor",
+        });
+        comment.publicar();
+    }
+}
+
 
 
 const monse = new FreeStuden ({
@@ -185,4 +228,11 @@ const joana = new BasicStudent ({
         escuelaWeb,
         escuelaVgs,
     ],
+});
+
+const valeria = new TeacherStudent({
+    name: "Valeria",
+    username: "valeriaP12",
+    email: "valeriaPG12@gmail.com",
+    instagram: "VALERIAP12", 
 });
