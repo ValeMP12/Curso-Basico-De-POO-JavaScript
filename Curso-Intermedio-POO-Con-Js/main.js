@@ -1,8 +1,8 @@
-function isObject (subject) {
+function isObject(subject) {
   return typeof subject == "object";
-};
+}
 
-function isArray (subject) {
+function isArray(subject) {
   return Array.isArray(subject);
 }
 
@@ -12,23 +12,23 @@ function deepCopy(subject) {
   const subjectIsObject = isObject(subject);
   const subjectIsArray = isArray(subject);
 
-  if (subjectIsArray){
+  if (subjectIsArray) {
     copySubject = [];
-  }else if (subjectIsObject){
-    copySubject = {}
-  }else{
+  } else if (subjectIsObject) {
+    copySubject = {};
+  } else {
     return subject;
   }
 
-  for (const key in subject){
+  for (const key in subject) {
     const keyIsObject = isObject(subject[key]);
 
-    if(keyIsObject){
-      copySubject[key] = deepCopy(subject[key]); 
-    }else{
-      if (subjectIsArray){
+    if (keyIsObject) {
+      copySubject[key] = deepCopy(subject[key]);
+    } else {
+      if (subjectIsArray) {
         copySubject.push(subject[key]);
-      }else{
+      } else {
         copySubject[key] = subject[key];
       }
     }
@@ -49,11 +49,11 @@ function deepCopy(subject) {
   },
 };
 */
-function requiredParam (param){
-  throw new Error (param + " es obligatorio")
-};
+function requiredParam(param) {
+  throw new Error(param + " es obligatorio");
+}
 
-function createStudent( {
+function createStudent({
   name = requiredParam("name"),
   age,
   email = requiredParam("email"),
@@ -62,19 +62,43 @@ function createStudent( {
   instagram,
   approvedCourses = [],
   learningPaths = [],
-} = {}){
-  return{
-    name, 
+} = {}) {
+  const private = {
+    _name: name,
+  };
+
+  const public = {
     age,
     email,
     approvedCourses,
     learningPaths,
     socialMedia: {
-      twitter ,
+      twitter,
       facebook,
       instagram,
     },
+    readName() {
+      return private["_name"];
+    },
+    changeName(newName) {
+      private["_name"] = newName;
+    },
   };
+
+  Object.defineProperty(public, "readName", {
+    configurable: false,
+    writable: false,
+  });
+  Object.defineProperty(public, "changeName", {
+    configurable: false,
+    writable: false,
+  });
+  
+
+  return public;
 }
 
-const valeria = createStudent();
+const valeria = createStudent({
+  name: "Valeria",
+  email: "valeria10@gmail.com",
+});
