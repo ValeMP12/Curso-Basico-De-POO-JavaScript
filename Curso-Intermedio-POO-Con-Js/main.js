@@ -36,7 +36,7 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-const studentBase = {
+/*const studentBase = {
   name: undefined,
   age: undefined,
   email: undefined,
@@ -48,9 +48,33 @@ const studentBase = {
     instagram: undefined,
   },
 };
+*/
+function requiredParam (param){
+  throw new Error (param + " es obligatorio")
+};
 
-const valeria = deepCopy(studentBase);
-//Object.defineProperty(valeria, "name", {
-  //value: "Valeria",
-  //configurable: false,
-  Object.seal(valeria);
+function createStudent( {
+  name = requiredParam("name"),
+  age,
+  email = requiredParam("email"),
+  twitter,
+  facebook,
+  instagram,
+  approvedCourses = [],
+  learningPaths = [],
+} = {}){
+  return{
+    name, 
+    age,
+    email,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter ,
+      facebook,
+      instagram,
+    },
+  };
+}
+
+const valeria = createStudent();
