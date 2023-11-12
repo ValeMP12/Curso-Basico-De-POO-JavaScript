@@ -36,21 +36,37 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-/*const studentBase = {
-  name: undefined,
-  age: undefined,
-  email: undefined,
-  approvedCourses: undefined,
-  learninPaths: undefined,
-  socialMedia: {
-    twitter: undefined,
-    facebook:undefined,
-    instagram: undefined,
-  },
-};
-*/
 function requiredParam(param) {
   throw new Error(param + " es obligatorio");
+}
+
+function createLearningPath ({
+  name = requiredParam("name"),
+  _courses = [],
+}) {
+  const private = {
+    "_name": name,
+    "_courses": _courses,
+  };
+
+  const public = {
+    get name() {
+      return private["_name"];
+    }, 
+
+    set name(newName){
+      if (newName.length != 0) {
+        private["_name"] = newName;
+      } else {
+        console.warn("Tu nombre debe tener al menos 1 caracter");
+      }
+    },
+    get _courses() {
+      return private["_courses"];
+    }, 
+  };
+
+  return public;
 }
 
 function createStudent({
@@ -65,14 +81,14 @@ function createStudent({
 } = {}) {
 
   const private = {
-    _name: name,
+    "_name": name,
+    "_learningPaths": learningPaths,
   };
 
   const public = {
     age,
     email,
     approvedCourses,
-    learningPaths,
     socialMedia: {
       twitter,
       facebook,
@@ -83,30 +99,39 @@ function createStudent({
       return private["_name"];
     }, 
 
-    set name(newName){
-      if (newName.length != 0) {
+    set name(newName) {
+      if (newName.length !== 0) {
         private["_name"] = newName;
       } else {
         console.warn("Tu nombre debe tener al menos 1 caracter");
       }
     },
-    /*readName() {
-      return private["_name"];
+
+    get learningPaths() {
+      return private["_learningPaths"];
+    }, 
+
+    set learningPaths(newLP) {
+      if (!newLP.name){
+        console.warn("Tu LP no tiene la propiedad name");
+        return;
+      }
+      if (!newLP.courses){
+        console.warn("Tu LP no tiene courses");
+        return;
+      }
+      if (!isArray(newLP.courses)){
+        console.warn("Tu LP no es una lista (*de cursos)");
+        return;
+      }
+
+      if (!private["_learningPaths"]) {
+        private["_learningPaths"] = [];
+      }
+
+      private["_learningPaths"].push(newLP);
     },
-    changeName(newName) {
-      private["_name"] = newName;
-    },*/
   };
-/*
-  Object.defineProperty(public, "readName", {
-    configurable: false,
-    writable: false,
-  });
-  Object.defineProperty(public, "changeName", {
-    configurable: false,
-    writable: false,
-  });
-  */
 
   return public;
 }
@@ -115,3 +140,10 @@ const valeria = createStudent({
   name: "Valeria",
   email: "valeria10@gmail.com",
 });
+
+// Ejemplo de cómo agregar un LearningPath
+//valeria.learningPaths = {
+  //name: "Programación",
+  //courses: ["JavaScript", "Python"],
+//};
+
