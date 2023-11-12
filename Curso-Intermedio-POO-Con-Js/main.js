@@ -40,15 +40,18 @@ function requiredParam(param) {
   throw new Error(param + " es obligatorio");
 }
 
-function createLearningPath ({
+function LearningPath ({
   name = requiredParam("name"),
-  _courses = [],
+  courses = [],
 }) {
+  this.name = name;
+  this.courses = courses;
+ /* 
   const private = {
     "_name": name,
     "_courses": _courses,
-  };
-
+  };*/
+/*
   const public = {
     get name() {
       return private["_name"];
@@ -67,9 +70,10 @@ function createLearningPath ({
   };
 
   return public;
+  */
 }
 
-function createStudent({
+function Student({
   name = requiredParam("name"),
   age,
   email = requiredParam("email"),
@@ -80,6 +84,29 @@ function createStudent({
   learningPaths = [],
 } = {}) {
 
+  this.name = name;
+  this.age = age;
+  this.email = email;
+  this.learningPaths = learningPaths;
+  this.approvedCourses = approvedCourses;
+  this.socialMedia = {
+    twitter,
+    facebook,
+    instagram,
+  };
+
+if (!isArray(learningPaths)) {
+  this.learningPaths = [];
+
+  for (const learningPathIndex in learningPaths) {
+    if (learningPaths[learningPathIndex] instanceof LearningPath) {
+      this.learningPaths.push(learningPaths[learningPathIndex]);
+    }
+  }
+}
+
+
+/*
   const private = {
     "_name": name,
     "_learningPaths": learningPaths,
@@ -134,11 +161,18 @@ function createStudent({
   };
 
   return public;
+  */
 }
+const escuelaWeb = new LearningPath({
+  name: "Escuela de WebDev ",
+});
 
-const valeria = createStudent({
+const valeria = new Student({
   name: "Valeria",
   email: "valeria10@gmail.com",
+  learningPaths: [
+    escuelaWeb,
+  ],
 });
 
 // Ejemplo de cómo agregar un LearningPath
